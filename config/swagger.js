@@ -9,7 +9,10 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3001',
+        url:
+          process.env.NODE_ENV === 'production'
+            ? 'https://node-api-3i98.onrender.com'
+            : 'http://localhost:3001',
       },
     ],
 
