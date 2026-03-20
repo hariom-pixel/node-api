@@ -28,3 +28,14 @@ const startServer = async () => {
 }
 
 startServer()
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled Rejection:', reason)
+})
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  logger.error('Uncaught Exception:', err)
+  process.exit(1)
+})

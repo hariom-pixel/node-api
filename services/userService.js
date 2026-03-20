@@ -9,7 +9,7 @@ const { get, setEx } = require('../utils/safeRedis')
 const emailQueue = require('../queues/emailQueue')
 
 exports.getUsers = async (queryParams) => {
-  const cacheKey = `users:${JSON.stringify(queryParams)}`
+  const cacheKey = `users:page=${page}:limit=${limit}:role=${role || 'all'}`
   const cachedData = await get(cacheKey)
 
   if (cachedData) {
