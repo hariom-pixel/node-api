@@ -1,12 +1,8 @@
-const { client } = require('../config/redis')
+// utils/cache.js
+const { delKeys } = require('./safeRedis')
 
 const clearUsersCache = async () => {
-  const keys = await client.keys('users:*')
-  if (keys.length) {
-    await client.del(keys)
-  }
+  await delKeys('users:*') // safe even if Redis is disabled
 }
 
-module.exports = {
-  clearUsersCache,
-}
+module.exports = { clearUsersCache }
