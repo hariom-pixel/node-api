@@ -1,14 +1,26 @@
 const { createClient } = require('redis')
 
-const client = createClient()
+let client = null
 
-client.on('error', (err) => {
-  console.error('Redis error:', err)
-})
+// Only create client if REDIS_URL is set
+if (process.env.REDIS_URL) {
+  client = createClient({ url: process.env.REDIS_URL })
 
-const connectRedis = async () => {
-  await client.connect()
-  console.log('Redis connected')
+  client.on('error', (err) => {
+    console.error('Redis error:', err)
+  })
+
+  const connectRedis = async () => {
+    try {
+      await client.connect()
+      console.log('Redis connected')
+    } catch (err) {
+      console.error('Redis failed to connect:', err)
+    }
+  }
+
+  module.exports = { client, connectRedis }
+} else {
+  console.log('Redis disabled (REDIS_URL not set)')
+  module.exports = { client: null, connectRedis: async () => {} }
 }
-
-module.exports = { client, connectRedis }
