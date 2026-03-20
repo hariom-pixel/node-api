@@ -13,14 +13,14 @@ exports.getUsers = async (queryParams) => {
   const cachedData = await get(cacheKey)
 
   if (cachedData) {
-    logger.info('⚡ Cache HIT')
+    logger.info('Cache HIT')
     return JSON.parse(cachedData)
   }
 
-  logger.info('🐢 Cache MISS → Fetching from DB')
+  logger.info('Cache MISS → Fetching from DB')
 
   const page = parseInt(queryParams.page) || 1
-  const limit = parseInt(queryParams.limit) || 5
+  const limit = queryParams.limit ? parseInt(queryParams.limit) : null
   const skip = (page - 1) * limit
 
   const search = queryParams.search || ''

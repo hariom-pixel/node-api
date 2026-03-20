@@ -5,6 +5,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 
 const userRoutes = require('./routes/userRoutes')
+const healthRoutes = require('./routes/healthRoutes')
 const logger = require('./utils/logger')
 const errorHandler = require('./middleware/errorHandler')
 
@@ -40,6 +41,7 @@ app.use('/uploads', express.static('uploads'))
 
 // Routes
 app.use('/users', userRoutes)
+app.use('/health', healthRoutes)
 
 // Error handler (LAST)
 app.use(errorHandler)

@@ -1,5 +1,6 @@
 // config/redis.js
 const { createClient } = require('redis')
+const logger = require('../utils/logger')
 
 let client = null
 
@@ -13,9 +14,9 @@ if (process.env.REDIS_URL) {
   const connectRedis = async () => {
     try {
       await client.connect()
-      console.log('✅ Redis connected')
+      logger.info('Redis connected')
     } catch (err) {
-      console.error('❌ Redis failed to connect:', err)
+      logger.error('Redis failed to connect:', err)
       client = null // mark as unavailable
     }
   }

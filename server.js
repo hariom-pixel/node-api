@@ -1,9 +1,10 @@
 // server.js
 require('dotenv').config()
 
-const app = require('./app') // your Express app
-const connectDB = require('./config/db') // MongoDB connection
-const { connectRedis } = require('./config/redis') // optional Redis
+const app = require('./app')
+const connectDB = require('./config/db')
+const { connectRedis } = require('./config/redis')
+const logger = require('./utils/logger')
 
 const PORT = process.env.PORT || 3001
 
@@ -11,17 +12,17 @@ const startServer = async () => {
   try {
     // Connect to MongoDB
     await connectDB()
-    console.log('✅ MongoDB connected')
+    logger.info('MongoDB connected')
 
     // Connect Redis only if REDIS_URL exists
-    await connectRedis() // safe no-op if Redis disabled
+    await connectRedis()
 
     // Start Express server
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`)
+      logger.info(`Server running on port ${PORT}`)
     })
   } catch (err) {
-    console.error('❌ Failed to start server:', err)
+    logger.error('Failed to start server:', err)
     process.exit(1)
   }
 }
